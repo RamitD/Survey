@@ -1,23 +1,32 @@
 import React, { Component } from "react";
-
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-var uuid = require('uuid');
+
+// var admin = require("firebase-admin");
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyC8brM9XdsZ4nC3WznSYiEgau1Ny1XMlMw",
     authDomain: "survey-b754e.firebaseapp.com",
+    databaseURL: "https://survey-b754e-default-rtdb.firebaseio.com",
     projectId: "survey-b754e",
     storageBucket: "survey-b754e.appspot.com",
     messagingSenderId: "352162664203",
     appId: "1:352162664203:web:9449514a6324c83c7a5c0e"
-};
-
+  };
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
+
+// var serviceAccount = require("../config/survey-b754e-firebase-adminsdk-5qceu-85a6b8993d.json");
+
+// admin.initializeApp({
+//   credential: admin.credential.cert(serviceAccount),
+//   databaseURL: "https://survey-b754e-default-rtdb.firebaseio.com"
+// });
+
+// Import the functions you need from the SDKs you need
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+var uuid = require('uuid');
 
 class Survey extends Component {
     constructor(props) {
@@ -67,6 +76,14 @@ class Survey extends Component {
     formSubmit(event) {
         // firebase
         // TODO: firebase data push and set isSubmitted to true
+        var ref = app.database().ref('survey/'+this.state.uid).set({
+            studentName: this.state.studentName,
+            answers: this.state.answer
+        });
+        this.setState({isSubmitted:true}, () => {
+            console.log("Should be submitted");
+        });
+
     }
 
     render() {
